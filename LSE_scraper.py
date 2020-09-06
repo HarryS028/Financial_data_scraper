@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
 import re
+import itertools
 
 # Select stock exchange and year 
 exchange = 'London Stock Exchange'
@@ -40,7 +41,8 @@ def processor(text):
 
     dates_dict = dict(zip(columns, dates))
 
-    metrics = ['Total Revenue', 'Dividend per share']
+    company_name = 'Amiad Water Systems Ltd'
+    metrics = ['Total Revenue', 'Dividend per share', 'Operating profit', 'Net interest', 'Taxes']
     js_extension = '&q;,&q;value&q;:'
     pattern2 = r'\d+(?:\.\d+)?'
 
@@ -89,18 +91,28 @@ def processor(text):
             values.append(v.group())
 
         metrics_list = [metric for i in range(len(metric_dates))]
+        company_list = [company_name for i in range(len(metric_dates))]
 
-        working_output = list(zip(metrics_list, metric_dates, values))
+        working_output = list(zip(company_list, metrics_list, metric_dates, values))
+        working_output = list(set(working_output))
         output_list.append(working_output)
+    
+    output_list = list(itertools.chain.from_iterable(output_list))
 
-
-    # de dupe 
     # get in to dataframe long narrow format
+    df = pd.DataFrame(output_list, columns = ['Company name', 'Metric', 'FYE', 'Value'])
+
+    # Add currencies to dataframe
+    currency_map = []
+    for k in cur_dat_dict:
+        FY_year = (re.search(r'\d{4}', k)).group()
+        if 
+    #df['Currency'] = 
     # add all extra metrics 
     # export to excel
+    df.to_excel(r'test_output.xlsx', encoding='UTF-8')
 
-
-    return output_list
+    return cur_dat_dict
 
 # Output to csv/excel format
 
