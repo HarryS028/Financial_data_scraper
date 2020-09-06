@@ -38,42 +38,70 @@ def processor(text):
     for p in columns:
         dates.append(text[p:p+9])
 
-    metric = 'Total Revenue'
+    dates_dict = dict(zip(columns, dates))
+
+    metrics = ['Total Revenue', 'Dividend per share']
     js_extension = '&q;,&q;value&q;:'
     pattern2 = r'\d+(?:\.\d+)?'
 
-    # Get positions of the metric so we can find the year
-    metric_positions = [p.start() for p in re.finditer(metric+js_extension, text)]
+    # Get currency positions and values, compare with dates dict to get currency by year
+    pattern3 = r'currency&q;:{&q;label&q'
+    pattern4 = r'[A-Z]{3}'
+    currency_pos = [c.start() for c in re.finditer(pattern3, text)]
+    currency_values = []
+    for c in currency_pos:
+        currency_soup = text[c: c + 100]
+        currency = re.search(pattern4, currency_soup)
+        currency_values.append(currency.group())
 
-    metric_dates = []
-    for item in metric_positions:
-        for col in columns:
-            if item > col:
-                
+    currency_dict = dict(zip(currency_pos, currency_values))
 
-    # Pull out values
-    value_soup = re.findall(metric+js_extension+pattern2, text)
-    values = []
-    for value in value_soup:
-        v = re.search(pattern2, value)
-        values.append(v.group())
+    # Sort keys for loop
+    dates_dict_keys = list(reversed(sorted(dates_dict.keys())))
+
+    cur_dat_dict = {}
+    for cur in currency_dict:
+        for d in dates_dict_keys:
+            if d < cur:
+                cur_dat_dict[dates_dict[d]] = currency_dict[cur]
+                break
+
+    output_list = []
+    # For loop over metrics
+    for metric in metrics:
+
+        # Get positions of the metric so we can find the year
+        metric_positions = [p.start() for p in re.finditer(metric+js_extension, text)]
+
+        metric_dates = []
+        for item in metric_positions:
+            for k in dates_dict_keys:
+                if k < item:
+                    metric_dates.append(dates_dict[k])
+                    break
 
 
-    # Between dateyearends read data with regexs and process in to long format
+        # Pull out values
+        value_soup = re.findall(metric+js_extension+pattern2, text)
+        values = []
+        for value in value_soup:
+            v = re.search(pattern2, value)
+            values.append(v.group())
 
-    # Convert to dataframe and return 
+        metrics_list = [metric for i in range(len(metric_dates))]
+
+        working_output = list(zip(metrics_list, metric_dates, values))
+        output_list.append(working_output)
 
 
-    return columns
+    # de dupe 
+    # get in to dataframe long narrow format
+    # add all extra metrics 
+    # export to excel
 
 
+    return output_list
 
-# Cycle through URls and call function to pull financial data in to a dataframe
-# &q;revenue&q;:{&q;label&q;:&q;Total Revenue&q;,&q;value&q;:112269000,&q;visibility&q;:true,&q;errorText&q;:null}
-# {&q;dateyearend&q;:{&q;label&q;:&q;-&q;,&q;value&q;:&q;2017-12-31&q;,&q;visibility&q;:true,&q;errorText&q;:null},
-# &q;currency&q;:{&q;label&q;:&q;-&q;,&q;value&q;:&q;USD&q;,&q;visibility&q;:true,&q;errorText&q;:null},
-# &q;totaldividend&q;:{&q;label&q;:&q;Dividend per share&q;,&q;value&q;:0.032,&q;visibility&q;:true,&q;errorText&q;:null},
-# &q;taxes&q;:{&q;label&q;:&q;Taxes&q;,&q;value&q;:&q;-&q;,&q;visibility&q;:true,&q;errorText&q;:null}
 # Output to csv/excel format
 
 print(processor(contents))
