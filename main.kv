@@ -5,9 +5,55 @@ WindowManager:
 
 <MainWindow>:
     name: "main"
-
+    RelativeLayout:
+        rows: 5
+        #col_force_default: True
+        MDLabel:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+            text: "LSE data scraper"
+            font_style: 'H2'
+            halign: "center"
+            size_hint_y: None
+            height: 200
+        MDTextField:
+            id: scrape_location
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            size_hint_x: None
+            width: 400
+            hint_text: "Enter location of scraping spreadsheet"
+            helper_text: r"Example: C:\Users\JoeBloggs\Excel\Example_list.xlsx"
+            helper_text_mode: "on_focus"
+        MDTextField:
+            id: save_location
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size_hint_x: None
+            width: 400
+            hint_text: "Where would you like to save scraped data?"
+            helper_text: r"Example: C:\Users\JoeBloggs\Excel"
+            helper_text_mode: "on_focus"
+        MDRaisedButton:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            text: "Scrape!"
+            md_bg_color: 1, 0, 1, 1
+            on_release: 
+                root.ids.info_label.text = root.show_data(root.ids.scrape_location.text)
+                root.ids.scrape_location.text = ""
+                root.ids.save_location.text = ""
+        MDLabel:
+            id: info_label
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            size_hint_x: None
+            width: 200
+            text: ""
+            halign: "center"
 
 <FileWindow>:
     name: "file"
-    FileChooserIconView:
+    canvas.before:
+        Color:
+            rgba: 0, 1, 0, 0
+    FileChooserListView:
+        id: filechoose
+        path: "C:\\Users"
+
 

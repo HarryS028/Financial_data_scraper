@@ -6,9 +6,13 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.boxlayout import BoxLayout
 
 class MainWindow(Screen):
-    pass
+
+    def show_data(self, text):
+        return text
 
 class FileWindow(Screen):
     pass

@@ -103,16 +103,18 @@ def processor(text):
     df = pd.DataFrame(output_list, columns = ['Company name', 'Metric', 'FYE', 'Value'])
 
     # Add currencies to dataframe
-    # currency_map = []
-    # for k in cur_dat_dict:
-    #     FY_year = (re.search(r'\d{4}', k)).group()
-    #     if 
+    #currency_map_dict = cur_dat_dict
+    currency_map_dict = {}
+    for k in cur_dat_dict:
+        key_ = (re.search(r'\d{4}', k)).group()
+        value_ = cur_dat_dict[k]
+        currency_map_dict[key_] = value_
     #df['Currency'] = 
     # add all extra metrics 
     # export to excel
     df.to_excel(r'test_output.xlsx', encoding='UTF-8')
 
-    return cur_dat_dict
+    return currency_map_dict
 
 # Output to csv/excel format
 
