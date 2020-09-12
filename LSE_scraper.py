@@ -101,20 +101,24 @@ def processor(text):
 
     # get in to dataframe long narrow format
     df = pd.DataFrame(output_list, columns = ['Company name', 'Metric', 'FYE', 'Value'])
+    df['Year'] = df['FYE'].str[0:4]
 
     # Add currencies to dataframe
-    #currency_map_dict = cur_dat_dict
     currency_map_dict = {}
     for k in cur_dat_dict:
         key_ = (re.search(r'\d{4}', k)).group()
         value_ = cur_dat_dict[k]
         currency_map_dict[key_] = value_
-    #df['Currency'] = 
-    # add all extra metrics 
+
+    currency_df = pd.DataFrame.from_dict(currency_map_dict, orient='Index', columns=['Currency'])
+
+    # Join currency dictionary to df
+    df = df.merge(currency_df, how="left", left_on="Year", right_index=True)
+ 
     # export to excel
     df.to_excel(r'test_output.xlsx', encoding='UTF-8')
 
-    return currency_map_dict
+    return df
 
 # Output to csv/excel format
 
