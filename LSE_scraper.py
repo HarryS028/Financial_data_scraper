@@ -27,7 +27,7 @@ def scraper(link):
     return soup
 
 
-# Function that converts scraped LSE data in to long and narrow format, columns company name, metric, year, value, currency, unit
+# Function that converts scraped LSE data in to long and narrow format dataframe, columns: company name, metric, year, value, currency, unit
 
 def processor(text):
 
@@ -42,7 +42,7 @@ def processor(text):
     dates_dict = dict(zip(columns, dates))
 
     company_name = 'Amiad Water Systems Ltd'
-    metrics = ['Total Revenue', 'Dividend per share', 'Operating profit', 'Net interest', 'Taxes']
+    metrics = ['Total Revenue', 'Operating profit', 'Dividend per share']
     js_extension = '&q;,&q;value&q;:'
     pattern2 = r'\d+(?:\.\d+)?'
 
@@ -73,7 +73,7 @@ def processor(text):
     for metric in metrics:
 
         # Get positions of the metric so we can find the year
-        metric_positions = [p.start() for p in re.finditer(metric+js_extension, text)]
+        metric_positions = [p.start() for p in re.finditer(metric+js_extension+pattern2, text)]
 
         metric_dates = []
         for item in metric_positions:
@@ -90,6 +90,7 @@ def processor(text):
             v = re.search(pattern2, value)
             values.append(v.group())
 
+
         metrics_list = [metric for i in range(len(metric_dates))]
         company_list = [company_name for i in range(len(metric_dates))]
 
@@ -99,7 +100,7 @@ def processor(text):
     
     output_list = list(itertools.chain.from_iterable(output_list))
 
-    # get in to dataframe long narrow format
+    # Put in to dataframe long narrow format
     df = pd.DataFrame(output_list, columns = ['Company name', 'Metric', 'FYE', 'Value'])
     df['Year'] = df['FYE'].str[0:4]
 
@@ -115,7 +116,7 @@ def processor(text):
     # Join currency dictionary to df
     df = df.merge(currency_df, how="left", left_on="Year", right_index=True)
  
-    # export to excel
+    # Export to excel
     df.to_excel(r'test_output.xlsx', encoding='UTF-8')
 
     return df
