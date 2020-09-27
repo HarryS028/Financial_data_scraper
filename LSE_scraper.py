@@ -42,9 +42,14 @@ def processor(text):
     dates_dict = dict(zip(columns, dates))
 
     company_name = 'Amiad Water Systems Ltd'
-    metrics = ['Total Revenue', 'Operating profit', 'Dividend per share']
+    metrics = ['Total Revenue', 'Operating profit', 'Net interest', 'Other non operating income/expense', r'Pre tax profits \(from continued &a; discontinued\)', 
+    'Taxes', r'After tax profits \(from continued &a; discontinued\)', r'Net profit \(from continued &a; discontinued\)', 
+    'Equity Holders of parent company', 'Continued EPS - Basic', r'Continued &a; Discontinued EPS - Basic', 'Dividend per share', 'Total Assets', 'Non-current assets',
+    'Current assets', 'Total liabilities', 'Non-current liabilities', 'Current liabilities', 'Net assets', 'Total Equity', 'Shareholders Funds',
+    'PE Ratio', 'PEG', 'Earnings per Share Growth', 'Dividend Cover', 'Revenue Per Share', 'Pre-Tax Profit per Share', 'Operating Margin', 'Return on Capital Employed',
+    'Dividend Yield', 'Dividend per Share Growth', r'Net Asset Value per Share \(exc. Intangibles\)', 'Net Gearing']
     js_extension = '&q;,&q;value&q;:'
-    pattern2 = r'\d+(?:\.\d+)?'
+    pattern2 = r'-?\d+(?:\.\d+)?'
 
     # Get currency positions and values, compare with dates dict to get currency by year
     pattern3 = r'currency&q;:{&q;label&q'
@@ -128,4 +133,4 @@ print(processor(contents))
 # test output
 
 # with open("output.txt", "w") as text_file:
-#     text_file.write(test)
+#     text_file.write(str(scraper('https://www.londonstockexchange.com/stock/AFS/amiad-water-systems-ltd/fundamentals')))
