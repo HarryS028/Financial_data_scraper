@@ -29,7 +29,7 @@ def scraper(link):
 
 # Function that converts scraped LSE data in to long and narrow format dataframe, columns: company name, metric, year, value, currency, unit
 
-def processor(text):
+def processor(text, company_name):
 
     # Get positions of dateyearend
     pattern = r'\d{4}-\d{2}-\d{2}'
@@ -41,7 +41,6 @@ def processor(text):
 
     dates_dict = dict(zip(columns, dates))
 
-    company_name = 'Amiad Water Systems Ltd'
     metrics = ['Total Revenue', 'Operating profit', 'Net interest', 'Other non operating income/expense', r'Pre tax profits \(from continued &a; discontinued\)', 
     'Taxes', r'After tax profits \(from continued &a; discontinued\)', r'Net profit \(from continued &a; discontinued\)', 
     'Equity Holders of parent company', 'Continued EPS - Basic', r'Continued &a; Discontinued EPS - Basic', 'Dividend per share', 'Total Assets', 'Non-current assets',
@@ -122,15 +121,18 @@ def processor(text):
     df = df.merge(currency_df, how="left", left_on="Year", right_index=True)
  
     # Export to excel
-    df.to_excel(r'test_output.xlsx', encoding='UTF-8')
+    #df.to_excel(r'test_output.xlsx', encoding='UTF-8')
 
     return df
 
-# Output to csv/excel format
-
-print(processor(contents))
-
 # test output
 
-# with open("output.txt", "w") as text_file:
-#     text_file.write(str(scraper('https://www.londonstockexchange.com/stock/AFS/amiad-water-systems-ltd/fundamentals')))
+df_out = pd.DataFrame(columns=['Company name', 'Metric', 'FYE'])
+for i in range(len(df.iloc[:, 0])):
+    company = df.iloc[i, 0]
+    url = df.iloc[i, 1]
+    text_current = str(scraper(url))
+    df_current = processor(text_current, company)
+    df_out = df_out.append(df_current, ignore_index=True)
+
+df_out.to_excel(r'test_output.xlsx', encoding='UTF-8')
