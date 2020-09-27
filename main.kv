@@ -4,10 +4,16 @@ WindowManager:
 
 
 <MainWindow>:
+    canvas.before:
+        #Color:
+            #rgba: 1, 0, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "white.jpg"
     name: "main"
     RelativeLayout:
         rows: 5
-        #col_force_default: True
         MDLabel:
             pos_hint: {'center_x': 0.5, 'center_y': 0.8}
             text: "LSE data scraper"
@@ -15,9 +21,114 @@ WindowManager:
             halign: "center"
             size_hint_y: None
             height: 200
+        GridLayout:
+            rows: 2
+            cols: 4
+            col_force_default: True
+            col_default_width: 70
+            row_force_default: True
+            row_default_height: 40
+            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+            size_hint: None, None
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 70
+                height: 40
+                Label:
+                    text: "Hello"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    #size_hint: None, None
+                    #width: 40
+                    #height: 40
         MDTextField:
             id: scrape_location
-            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
             size_hint_x: None
             width: 400
             hint_text: "Enter location of scraping spreadsheet"
@@ -25,14 +136,14 @@ WindowManager:
             helper_text_mode: "on_focus"
         MDTextField:
             id: save_location
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
             size_hint_x: None
             width: 400
             hint_text: "Where would you like to save scraped data?"
             helper_text: r"Example: C:\Users\JoeBloggs\Excel"
             helper_text_mode: "on_focus"
         MDRaisedButton:
-            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
             text: "Scrape!"
             md_bg_color: 1, 0, 1, 1
             on_release: 
@@ -41,11 +152,15 @@ WindowManager:
                 root.ids.save_location.text = ""
         MDLabel:
             id: info_label
-            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
             size_hint_x: None
             width: 200
             text: ""
             halign: "center"
+        MDCheckbox:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            size_hint: .05, .05
+            active: True
 
 <FileWindow>:
     name: "file"
