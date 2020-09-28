@@ -21,114 +21,118 @@ WindowManager:
             halign: "center"
             size_hint_y: None
             height: 200
-        GridLayout:
+        Widget:
+            id: separator
+            size_hint_y: None
+            height: 6
+            canvas:
+                Color:
+                    rgb: 1., 0., 1.
+                Rectangle:
+                    pos: root.width/6.5, root.height/1.6
+                    size: separator.width/1.5, 2
+        Widget:
+            id: separator
+            size_hint_y: None
+            height: 6
+            canvas:
+                Color:
+                    rgb: 1., 0., 1.
+                Rectangle:
+                    pos: root.width/6.5, root.height/2.15
+                    size: separator.width/1.5, 2
+        GridLayout:            
             rows: 2
             cols: 4
             col_force_default: True
-            col_default_width: 70
+            col_default_width: 150
             row_force_default: True
-            row_default_height: 40
-            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+            row_default_height: 90
+            pos_hint: {'center_x': 0.25, 'center_y': 0.6}
             size_hint: None, None
             GridLayout:
                 cols: 2
                 size_hint: None, None
-                width: 70
+                width: 45
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "All"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+                   
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 160
+                height: 40
+                Label:
+                    text: "Income statement"
+                    color: 1,0,1,1
+                MDCheckbox:
+                 
+            GridLayout:
+                cols: 2
+                size_hint: None, None
+                width: 160
+                height: 40
+                Label:
+                    text: "Balance sheet"
+                    color: 1,0,1,1
+                MDCheckbox:
+                    
             GridLayout:
                 cols: 2
                 size_hint: None, None
                 width: 70
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "Ratios"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+                  
             GridLayout:
                 cols: 2
                 size_hint: None, None
-                width: 70
+                width: 140
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "Total revenue"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+             
             GridLayout:
                 cols: 2
                 size_hint: None, None
-                width: 70
+                width: 100
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "Net profit"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+                  
             GridLayout:
                 cols: 2
                 size_hint: None, None
-                width: 70
+                width: 110
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "Total assets"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+                   
             GridLayout:
                 cols: 2
                 size_hint: None, None
-                width: 70
+                width: 80
                 height: 40
                 Label:
-                    text: "Hello"
+                    text: "PE ratio"
                     color: 1,0,1,1
                 MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
-            GridLayout:
-                cols: 2
-                size_hint: None, None
-                width: 70
-                height: 40
-                Label:
-                    text: "Hello"
-                    color: 1,0,1,1
-                MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
-            GridLayout:
-                cols: 2
-                size_hint: None, None
-                width: 70
-                height: 40
-                Label:
-                    text: "Hello"
-                    color: 1,0,1,1
-                MDCheckbox:
-                    #size_hint: None, None
-                    #width: 40
-                    #height: 40
+                  
         MDTextField:
             id: scrape_location
-            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
             size_hint_x: None
             width: 400
             hint_text: "Enter location of scraping spreadsheet"
@@ -136,14 +140,14 @@ WindowManager:
             helper_text_mode: "on_focus"
         MDTextField:
             id: save_location
-            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
             size_hint_x: None
             width: 400
             hint_text: "Where would you like to save scraped data?"
             helper_text: r"Example: C:\Users\JoeBloggs\Excel"
             helper_text_mode: "on_focus"
         MDRaisedButton:
-            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
             text: "Scrape!"
             md_bg_color: 1, 0, 1, 1
             on_release: 
@@ -152,15 +156,11 @@ WindowManager:
                 root.ids.save_location.text = ""
         MDLabel:
             id: info_label
-            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.05}
             size_hint_x: None
             width: 200
             text: ""
             halign: "center"
-        MDCheckbox:
-            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
-            size_hint: .05, .05
-            active: True
 
 <FileWindow>:
     name: "file"

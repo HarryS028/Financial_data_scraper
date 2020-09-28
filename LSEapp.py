@@ -1,4 +1,9 @@
 import kivy
+from kivy.config import Config
+from kivy.core.window import Window
+
+kivy.config.Config.set('graphics','resizable',False)
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -8,6 +13,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.boxlayout import BoxLayout
+
 
 class MainWindow(Screen):
 
@@ -22,6 +28,8 @@ class WindowManager(ScreenManager):
 
 class MyApp(MDApp):
     def build(self):
+
+        Window.size = (900, 600)
         kv = Builder.load_file("main.kv")
         return kv
 
