@@ -1,20 +1,11 @@
-from bs4 import BeautifulSoup
+from lib.bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
 import re
 import itertools
+import sys
 
-# Select stock exchange and year 
-exchange = 'London Stock Exchange'
-year = 2020
 
-# Take a spreadsheet of Company names and URLs and place in a dataframe
-xls_file = pd.ExcelFile('test_data.xlsx')
-df = xls_file.parse('Sheet1')
-
-file_input = open("output.txt", "r")
-if file_input.mode == 'r':
-    contents = file_input.read()
 
 # Function that scrapes financial data from a LSE fundamentals web page
 def scraper(link):
@@ -125,14 +116,28 @@ def processor(text, company_name):
 
     return df
 
-# test output
+def main_func(input_file):
 
-df_out = pd.DataFrame(columns=['Company name', 'Metric', 'FYE'])
-for i in range(len(df.iloc[:, 0])):
-    company = df.iloc[i, 0]
-    url = df.iloc[i, 1]
-    text_current = str(scraper(url))
-    df_current = processor(text_current, company)
-    df_out = df_out.append(df_current, ignore_index=True)
+    # Generate output location output_loc
+    slash_pos = input_file.rfind('\\')
+    output_loc = input_file[ : slash_pos + 1]
 
-df_out.to_excel(r'test_output.xlsx', encoding='UTF-8')
+    # Take first sheet of spreadsheet
+    xls_file = pd.ExcelFile(input_file)
+    df = xls_file.parse('Sheet1')
+
+    # Main process
+    df_out = pd.DataFrame(columns=['Company name', 'Metric', 'FYE'])
+    for i in range(len(df.iloc[:, 0])):
+        company = df.iloc[i, 0]
+        url = df.iloc[i, 1]
+        text_current = str(scraper(url))
+        df_current = processor(text_current, company)
+        df_out = df_out.append(df_current, ignore_index=True)
+
+    df_out.to_excel(output_loc + 'LSE-financials.xlsx', encoding='UTF-8')
+    return "Scraping complete"
+
+print(main_func(r"C:\Users\Harry\Python\Financial_data_scraper\gui-app\engine\test_data.xlsx"))
+
+#print(main_func('test_data.xlsx', 'C:/Users/Harry/Python/Financial_data_scraper/gui-app/engine/'))
